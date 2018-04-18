@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import (FormView, CreateView, UpdateView, DeleteView)
 from django.views.generic.list import ListView
 
-from warehouse.forms import (AsmbForm, TestForm)
+from warehouse.forms import (AsmbForm, ProgForm)
 from warehouse.models import Task
 #-------------------Make views here-------------------------#
 
@@ -25,16 +25,29 @@ class AsmbFormView(LoginRequiredMixin, FormView):
             starter = self.request.user
         )
         t.save()
-        form.task_id = t.get_id()
+        form.instance.task_id = t
         form.save()
         return super(AsmbFormView, self).form_valid(form)
 
 
-class TestFormView(LoginRequiredMixin, FormView):
+class ProgFormView(LoginRequiredMixin, FormView):
     login_url = '/'
     template_name = 'warehouse/form.html'
-    form_class = TestForm
-    success_url = '/home/'
+    form_class = ProgForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.save(commit=False)
+        t= Task(
+            versa_sn = form.cleaned_data['versa_sn'],
+            task_type = '2',
+            starter = self.request.user
+        )
+        t.save()
+        form.instance.task_id = t
+        form.save()
+        return super(ProgFormView, self).form_valid(form)
+
 
 class ReportView(LoginRequiredMixin, TemplateView):
     login_url = '/'
