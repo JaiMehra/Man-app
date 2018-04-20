@@ -24,4 +24,5 @@ Manufacturing web app
 <li>django-bootstrap4==0.0.6</li>  
 <li>django-crispy-forms==1.7.2</li>  
 <li>django-debug-toolbar==1.9.1</li>  
+<li>django-crum[IN CURRENT VERSION ON WORK COMP, NOT IN THIS VERION]</li>
 </ul>
